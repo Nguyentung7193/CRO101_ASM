@@ -73,3 +73,22 @@ yarn-error.log
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# Android build
+android/app/build/
+
+# iOS build
+ios/build/
+DerivedData/
+
+# Environment variables
+.env
+.env.*
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+
+# Expo
+.expo/
+.expo-shared/
