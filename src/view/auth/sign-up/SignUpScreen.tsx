@@ -9,22 +9,20 @@ import {
   Platform,
 } from 'react-native';
 import React, {useState} from 'react';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../../navigation/AppNavigator';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../../../navigation/AppNavigator';
 
-type SigninScreenProps = {
-  navigation: NativeStackNavigationProp<RootStackParamList, 'Login'>;
+type SignUpScreenProps = {
+  navigation: NativeStackNavigationProp<RootStackParamList, 'SignUp'>;
 };
 
-export default function SigninScreen({navigation}: SigninScreenProps) {
+export default function SignUpScreen({navigation}: SignUpScreenProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
-   const handleSignIn = () => {
-    navigation.replace('MenuHome');
-  };
-  const navigateToSignUp = () => {
-    navigation.navigate('SignUp');
+  const handleSignUp = () => {
+    navigation.replace('Home');
   };
 
   return (
@@ -33,8 +31,8 @@ export default function SigninScreen({navigation}: SigninScreenProps) {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.content}>
         <View style={styles.headerContainer}>
-          <Text style={styles.title}>Welcome Back</Text>
-          <Text style={styles.subtitle}>Sign in to continue</Text>
+          <Text style={styles.title}>Create Account</Text>
+          <Text style={styles.subtitle}>Sign up to get started</Text>
         </View>
 
         <View style={styles.formContainer}>
@@ -55,20 +53,24 @@ export default function SigninScreen({navigation}: SigninScreenProps) {
             onChangeText={setPassword}
             secureTextEntry
           />
+          <TextInput
+            style={styles.input}
+            placeholder="Confirm Password"
+            placeholderTextColor="#666"
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+            secureTextEntry
+          />
 
-          <TouchableOpacity style={styles.forgotPassword}>
-            <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText} onPress={handleSignIn}>Sign In</Text>
+          <TouchableOpacity style={styles.button} onPress={handleSignUp}>
+            <Text style={styles.buttonText}>Sign Up</Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.footer}>
-          <Text style={styles.footerText}>Don't have an account? </Text>
-          <TouchableOpacity>
-            <Text style={styles.signupText} onPress={navigateToSignUp}>Sign Up</Text>
+          <Text style={styles.footerText}>Already have an account? </Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+            <Text style={styles.signinText}>Sign In</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
@@ -110,19 +112,12 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
   },
-  forgotPassword: {
-    alignSelf: 'flex-end',
-    marginBottom: 20,
-  },
-  forgotPasswordText: {
-    color: '#666',
-    fontSize: 14,
-  },
   button: {
     backgroundColor: '#fff',
     borderRadius: 8,
     padding: 15,
     alignItems: 'center',
+    marginTop: 10,
   },
   buttonText: {
     color: '#000',
@@ -138,7 +133,7 @@ const styles = StyleSheet.create({
     color: '#666',
     fontSize: 14,
   },
-  signupText: {
+  signinText: {
     color: '#fff',
     fontSize: 14,
     fontWeight: 'bold',
