@@ -12,6 +12,10 @@ import React, {useState} from 'react';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../../navigation/AppNavigator';
 
+type SignUpScreenProps = {
+  navigation: NativeStackNavigationProp<RootStackParamList, 'SignUp'>;
+};
+
 const COLORS = {
   primary: '#1e88e5', // Main blue color
   secondary: '#64b5f6', // Lighter blue
@@ -21,19 +25,13 @@ const COLORS = {
   textSecondary: '#757575',
 };
 
-type SigninScreenProps = {
-  navigation: NativeStackNavigationProp<RootStackParamList, 'Login'>;
-};
-
-export default function SigninScreen({navigation}: SigninScreenProps) {
+export default function SignUpScreen({navigation}: SignUpScreenProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
-  const handleSignIn = () => {
-    navigation.replace('MenuHome');
-  };
-  const navigateToSignUp = () => {
-    navigation.navigate('SignUp');
+  const handleSignUp = () => {
+    navigation.replace('Home');
   };
 
   return (
@@ -42,8 +40,8 @@ export default function SigninScreen({navigation}: SigninScreenProps) {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.content}>
         <View style={styles.headerContainer}>
-          <Text style={styles.title}>Welcome Back</Text>
-          <Text style={styles.subtitle}>Sign in to continue</Text>
+          <Text style={styles.title}>Create Account</Text>
+          <Text style={styles.subtitle}>Sign up to get started</Text>
         </View>
 
         <View style={styles.formContainer}>
@@ -64,20 +62,24 @@ export default function SigninScreen({navigation}: SigninScreenProps) {
             onChangeText={setPassword}
             secureTextEntry
           />
+          <TextInput
+            style={styles.input}
+            placeholder="Confirm Password"
+            placeholderTextColor={COLORS.textSecondary}
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+            secureTextEntry
+          />
 
-          <TouchableOpacity style={styles.forgotPassword}>
-            <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.button} onPress={handleSignIn}>
-            <Text style={styles.buttonText}>Sign In</Text>
+          <TouchableOpacity style={styles.button} onPress={handleSignUp}>
+            <Text style={styles.buttonText}>Sign Up</Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.footer}>
-          <Text style={styles.footerText}>Don't have an account? </Text>
-          <TouchableOpacity onPress={navigateToSignUp}>
-            <Text style={styles.signupText}>Sign Up</Text>
+          <Text style={styles.footerText}>Already have an account? </Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+            <Text style={styles.signinText}>Sign In</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
@@ -121,20 +123,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLORS.secondary,
   },
-  forgotPassword: {
-    alignSelf: 'flex-end',
-    marginBottom: 20,
-  },
-  forgotPasswordText: {
-    color: COLORS.primary,
-    fontSize: 14,
-    fontWeight: '500',
-  },
   button: {
     backgroundColor: COLORS.primary,
     borderRadius: 8,
     padding: 15,
     alignItems: 'center',
+    marginTop: 10,
     elevation: 2,
     shadowColor: COLORS.primary,
     shadowOffset: {
@@ -158,7 +152,7 @@ const styles = StyleSheet.create({
     color: COLORS.textSecondary,
     fontSize: 14,
   },
-  signupText: {
+  signinText: {
     color: COLORS.primary,
     fontSize: 14,
     fontWeight: 'bold',

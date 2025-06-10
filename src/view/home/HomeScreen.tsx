@@ -1,137 +1,182 @@
+import React, {useState} from 'react';
 import {
   StyleSheet,
-  Text,
   View,
-  SafeAreaView,
+  TextInput,
   TouchableOpacity,
-  Image,
+  ScrollView,
+  Text,
+  FlatList,
 } from 'react-native';
-import React from 'react';
-import {scale, verticalScale, moderateScale} from 'react-native-size-matters';
+import {scale, moderateScale} from 'react-native-size-matters';
+import NewProductItem from '../../compoment/product/NewProductItem';
+import ProductItem from '../../compoment/product/ProductItem';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../../navigation/AppNavigator';
 
-export default function HomeScreen() {
+const COLORS = {
+  primary: '#1e88e5',
+  secondary: '#64b5f6',
+  white: '#ffffff',
+  lightGray: '#f5f5f5',
+  text: '#333333',
+  textSecondary: '#757575',
+  lightBlue: '#e3f2fd',
+};
+
+const newProducts = [
+  {
+    id: '1',
+    name: 'Nike Air Max 2024',
+    price: '$199',
+    image:
+      'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/1d0b3e69-9048-41d3-a88c-f11f5c3d4276/air-max-90-shoes-N7Tbw0.png',
+  },
+  {
+    id: '2',
+    name: 'Nike ZoomX',
+    price: '$179',
+    image:
+      'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/d3eb254d-0901-4158-956d-4ee96f48a8bb/zoomx-vaporfly-3-road-racing-shoes-mVJdmS.png',
+  },
+  {
+    id: '3',
+    name: 'Nike React',
+    price: '$159',
+    image:
+      'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/7c2fff38-9f89-4ed3-a9cc-1f42d6bf75ac/react-infinity-3-road-running-shoes-S5Srkx.png',
+  },
+];
+
+const allProducts = [
+  {
+    id: '1',
+    name: 'Nike Air Max 2024',
+    price: '$199',
+    description:
+      'Revolutionary Air technology with newly engineered mesh upper',
+    image:
+      'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/1d0b3e69-9048-41d3-a88c-f11f5c3d4276/air-max-90-shoes-N7Tbw0.png',
+  },
+  {
+    id: '2',
+    name: 'Nike ZoomX',
+    price: '$179',
+    description: 'Ultimate racing shoe with responsive foam',
+    image:
+      'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/d3eb254d-0901-4158-956d-4ee96f48a8bb/zoomx-vaporfly-3-road-racing-shoes-mVJdmS.png',
+  },
+  {
+    id: '3',
+    name: 'Nike React',
+    price: '$159',
+    description: 'Soft and responsive foam for ultimate comfort',
+    image:
+      'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/7c2fff38-9f89-4ed3-a9cc-1f42d6bf75ac/react-infinity-3-road-running-shoes-S5Srkx.png',
+  },
+];
+
+type HomeScreenProps = {
+  navigation: NativeStackNavigationProp<
+    RootStackParamList,
+    'MenuHome' | 'Home'
+  >;
+};
+
+export default function HomeScreen({navigation}: HomeScreenProps) {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleProductPress = () => {
+    navigation.navigate('ProductDetails');
+  };
+
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <View style={styles.userInfoContainer}>
-          <View style={styles.userInfo}>
-            <Image
-              source={{
-                uri: 'https://toquoc.mediacdn.vn/280518851207290880/2021/9/3/base64-1630595438805599368242-1630639676186-1630639676357733744119.png',
-              }}
-              style={styles.avatar}
-            />
-            <View style={styles.welcomeText}>
-              <Text style={styles.greeting}>Welcome back,</Text>
-              <Text style={styles.username}>John Doe</Text>
-            </View>
-          </View>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      <View style={styles.searchContainer}>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search products..."
+          placeholderTextColor="#666"
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+        />
+        <TouchableOpacity style={styles.searchButton}>
+          <Text style={styles.searchButtonText}>🔍</Text>
+        </TouchableOpacity>
+      </View>
 
-          <TouchableOpacity style={styles.cartButton}>
-            <Text style={styles.cartButtonText}>Cart</Text>
-          </TouchableOpacity>
-        </View>
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>New Arrivals</Text>
+        <FlatList
+          horizontal
+          data={newProducts}
+          renderItem={({item}) => (
+            <NewProductItem item={item} onPress={() => handleProductPress()} />
+          )}
+          keyExtractor={item => item.id}
+          showsHorizontalScrollIndicator={false}
+          style={styles.newProductsList}
+        />
       </View>
-      <View style={styles.content}>
-        <Text style={styles.contentText}>Main Content Area</Text>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>All Products</Text>
+        <FlatList
+          data={allProducts}
+          renderItem={({item}) => (
+            <ProductItem item={item} onPress={() => handleProductPress()} />
+          )}
+          keyExtractor={item => item.id}
+          scrollEnabled={false}
+        />
       </View>
-      <View style={styles.bottomMenu}>
-        <TouchableOpacity style={styles.tabItem}>
-          <Text style={styles.tabIcon}>🏠</Text>
-          <Text style={styles.tabText}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.tabItem}>
-          <Text style={styles.tabIcon}>🔍</Text>
-          <Text style={styles.tabText}>Search</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.tabItem}>
-          <Text style={styles.tabIcon}>👤</Text>
-          <Text style={styles.tabText}>Profile</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: COLORS.white,
   },
-  header: {
+  searchContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    padding: scale(16),
-    borderBottomWidth: scale(1),
-    borderBottomColor: '#333',
+    backgroundColor: COLORS.lightGray,
+    borderRadius: scale(25),
+    margin: scale(16),
+    padding: scale(4),
+    borderWidth: 1,
+    borderColor: COLORS.secondary,
   },
-  userInfoContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  avatar: {
-    width: scale(40),
-    height: scale(40),
-    borderRadius: scale(20),
-    marginRight: scale(12),
-  },
-  welcomeText: {
+  searchInput: {
     flex: 1,
-  },
-  greeting: {
-    color: '#666',
-    fontSize: moderateScale(14),
-  },
-  username: {
-    color: '#fff',
+    color: COLORS.text,
     fontSize: moderateScale(16),
-    fontWeight: 'bold',
-  },
-  userInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flexShrink: 1,
-    marginRight: scale(12),
-  },
-  cartButton: {
-    backgroundColor: '#1a1a1a',
-    borderRadius: scale(20),
-    padding: scale(8),
     paddingHorizontal: scale(16),
+    paddingVertical: scale(8),
   },
-  cartButtonText: {
-    color: '#fff',
-    fontSize: moderateScale(16),
-    fontWeight: '500',
+  searchButton: {
+    padding: scale(8),
+    marginRight: scale(4),
+    backgroundColor: COLORS.primary,
+    borderRadius: scale(20),
   },
-  content: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+  searchButtonText: {
+    fontSize: moderateScale(20),
+    color: COLORS.white,
   },
-  contentText: {
-    color: '#fff',
-    fontSize: moderateScale(16),
+  section: {
+    marginVertical: scale(10),
   },
-  bottomMenu: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    padding: scale(12),
-    borderTopWidth: scale(1),
-    borderTopColor: '#333',
-    backgroundColor: '#1a1a1a',
+  sectionTitle: {
+    color: COLORS.text,
+    fontSize: moderateScale(20),
+    fontWeight: 'bold',
+    marginHorizontal: scale(16),
+    marginBottom: scale(10),
   },
-  tabItem: {
-    alignItems: 'center',
-  },
-  tabIcon: {
-    fontSize: moderateScale(24),
-    marginBottom: verticalScale(4),
-  },
-  tabText: {
-    color: '#fff',
-    fontSize: moderateScale(12),
+  newProductsList: {
+    paddingHorizontal: scale(16),
   },
 });
