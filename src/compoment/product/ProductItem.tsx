@@ -12,6 +12,15 @@ type ProductItemProps = {
   onPress?: () => void;
 };
 
+const COLORS = {
+  primary: '#1e88e5',
+  secondary: '#64b5f6',
+  white: '#ffffff',
+  lightGray: '#f5f5f5',
+  text: '#333333',
+  textSecondary: '#757575',
+};
+
 const ProductItem = ({item, onPress}: ProductItemProps) => {
   return (
     <TouchableOpacity style={styles.productCard} onPress={onPress}>
@@ -27,12 +36,22 @@ const ProductItem = ({item, onPress}: ProductItemProps) => {
 
 const styles = StyleSheet.create({
   productCard: {
-    backgroundColor: '#1a1a1a',
+    backgroundColor: COLORS.white,
     borderRadius: scale(10),
     padding: scale(10),
     marginHorizontal: scale(16),
     marginBottom: scale(10),
     flexDirection: 'row',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    borderWidth: 1,
+    borderColor: COLORS.lightGray,
   },
   productImage: {
     width: scale(100),
@@ -44,17 +63,18 @@ const styles = StyleSheet.create({
     marginLeft: scale(10),
   },
   productName: {
-    color: '#fff',
+    color: COLORS.text,
     fontSize: moderateScale(16),
     fontWeight: '500',
   },
   productPrice: {
-    color: '#fff',
+    color: COLORS.primary,
     fontSize: moderateScale(14),
+    fontWeight: 'bold',
     marginTop: scale(4),
   },
   productDescription: {
-    color: '#666',
+    color: COLORS.textSecondary,
     fontSize: moderateScale(12),
     marginTop: scale(4),
   },

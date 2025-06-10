@@ -2,6 +2,15 @@ import React from 'react';
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import {scale, moderateScale} from 'react-native-size-matters';
 
+const COLORS = {
+  primary: '#1e88e5',
+  secondary: '#64b5f6',
+  white: '#ffffff',
+  lightGray: '#f5f5f5',
+  text: '#333333',
+  textSecondary: '#757575',
+};
+
 type CartItemProps = {
   item: {
     id: string;
@@ -41,10 +50,17 @@ const CartItem = ({item, onUpdateQuantity}: CartItemProps) => {
 const styles = StyleSheet.create({
   cartItem: {
     flexDirection: 'row',
-    backgroundColor: '#1a1a1a',
+    backgroundColor: COLORS.white,
     borderRadius: scale(10),
     padding: scale(10),
     marginBottom: scale(10),
+    borderWidth: 1,
+    borderColor: COLORS.lightGray,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.1,
+    shadowRadius: 3.84,
   },
   itemImage: {
     width: scale(80),
@@ -56,13 +72,14 @@ const styles = StyleSheet.create({
     marginLeft: scale(10),
   },
   itemName: {
-    color: '#fff',
+    color: COLORS.text,
     fontSize: moderateScale(16),
     fontWeight: '500',
   },
   itemPrice: {
-    color: '#fff',
+    color: COLORS.primary,
     fontSize: moderateScale(14),
+    fontWeight: 'bold',
     marginTop: scale(4),
   },
   quantityControl: {
@@ -71,19 +88,24 @@ const styles = StyleSheet.create({
     marginTop: scale(8),
   },
   quantityButton: {
-    backgroundColor: '#333',
+    backgroundColor: COLORS.primary,
     width: scale(30),
     height: scale(30),
     borderRadius: scale(15),
     justifyContent: 'center',
     alignItems: 'center',
+    elevation: 2,
+    shadowColor: COLORS.primary,
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
   },
   quantityButtonText: {
-    color: '#fff',
+    color: COLORS.white,
     fontSize: moderateScale(16),
   },
   quantityText: {
-    color: '#fff',
+    color: COLORS.text,
     fontSize: moderateScale(16),
     marginHorizontal: scale(15),
   },

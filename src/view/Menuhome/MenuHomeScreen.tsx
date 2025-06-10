@@ -7,7 +7,7 @@ import {
   Image,
 } from 'react-native';
 import React, {useState} from 'react';
-import {scale, verticalScale, moderateScale} from 'react-native-size-matters';
+import {scale, moderateScale} from 'react-native-size-matters';
 import HomeScreen from '../home/HomeScreen';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../navigation/AppNavigator';
@@ -16,6 +16,16 @@ import Profile from '../profile/Profile';
 
 type MenuHomeScreenProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'MenuHome'>;
+};
+
+const COLORS = {
+  primary: '#1e88e5',
+  secondary: '#64b5f6',
+  white: '#ffffff',
+  lightGray: '#f5f5f5',
+  text: '#333333',
+  textSecondary: '#757575',
+  lightBlue: '#e3f2fd',
 };
 
 export default function MenuHomeScreen({navigation}: MenuHomeScreenProps) {
@@ -36,13 +46,13 @@ export default function MenuHomeScreen({navigation}: MenuHomeScreenProps) {
       case 'search':
         return (
           <View style={styles.content}>
-            <ListProduct/>
+            <ListProduct />
           </View>
         );
       case 'profile':
         return (
           <View style={styles.content}>
-            <Profile navigation={navigation}/>
+            <Profile navigation={navigation} />
           </View>
         );
       default:
@@ -67,9 +77,7 @@ export default function MenuHomeScreen({navigation}: MenuHomeScreenProps) {
             </View>
           </View>
 
-          <TouchableOpacity 
-            style={styles.cartButton}
-            onPress={handleCartPress}>
+          <TouchableOpacity style={styles.cartButton} onPress={handleCartPress}>
             <Text style={styles.cartButtonText}>Cart</Text>
           </TouchableOpacity>
         </View>
@@ -81,20 +89,35 @@ export default function MenuHomeScreen({navigation}: MenuHomeScreenProps) {
         <TouchableOpacity
           style={[styles.tabItem, activeTab === 'home' && styles.activeTab]}
           onPress={() => setActiveTab('home')}>
-          <Text style={styles.tabIcon}>🏠</Text>
-          <Text style={styles.tabText}>Home</Text>
+          <Text
+            style={[
+              styles.tabText,
+              activeTab === 'home' && styles.activeTabText,
+            ]}>
+            Home
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.tabItem, activeTab === 'search' && styles.activeTab]}
           onPress={() => setActiveTab('search')}>
-          <Text style={styles.tabIcon}>🔍</Text>
-          <Text style={styles.tabText}>Search</Text>
+          <Text
+            style={[
+              styles.tabText,
+              activeTab === 'search' && styles.activeTabText,
+            ]}>
+            Search
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.tabItem, activeTab === 'profile' && styles.activeTab]}
           onPress={() => setActiveTab('profile')}>
-          <Text style={styles.tabIcon}>👤</Text>
-          <Text style={styles.tabText}>Profile</Text>
+          <Text
+            style={[
+              styles.tabText,
+              activeTab === 'profile' && styles.activeTabText,
+            ]}>
+            Profile
+          </Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -104,12 +127,13 @@ export default function MenuHomeScreen({navigation}: MenuHomeScreenProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: COLORS.white,
   },
   header: {
     padding: scale(16),
-    borderBottomWidth: scale(1),
-    borderBottomColor: '#333',
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.lightGray,
+    backgroundColor: COLORS.white,
   },
   userInfoContainer: {
     flexDirection: 'row',
@@ -127,11 +151,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   greeting: {
-    color: '#666',
+    color: COLORS.textSecondary,
     fontSize: moderateScale(14),
   },
   username: {
-    color: '#fff',
+    color: COLORS.text,
     fontSize: moderateScale(16),
     fontWeight: 'bold',
   },
@@ -141,22 +165,30 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   cartButton: {
-    backgroundColor: '#1a1a1a',
+    backgroundColor: COLORS.primary,
     borderRadius: scale(20),
     padding: scale(8),
     paddingHorizontal: scale(16),
+    elevation: 2,
+    shadowColor: COLORS.primary,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
   },
   cartButtonText: {
-    color: '#fff',
+    color: COLORS.white,
     fontSize: moderateScale(16),
     fontWeight: '500',
   },
   content: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: COLORS.white,
   },
   contentText: {
-    color: '#fff',
+    color: COLORS.text,
     fontSize: moderateScale(16),
     textAlign: 'center',
     marginTop: scale(20),
@@ -165,25 +197,27 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     padding: scale(12),
-    borderTopWidth: scale(1),
-    borderTopColor: '#333',
-    backgroundColor: '#1a1a1a',
+    borderTopWidth: 1,
+    borderTopColor: COLORS.lightGray,
+    backgroundColor: COLORS.white,
   },
   tabItem: {
     alignItems: 'center',
     minWidth: scale(60),
-  },
-  tabIcon: {
-    fontSize: moderateScale(24),
-    marginBottom: verticalScale(4),
-  },
-  tabText: {
-    color: '#fff',
-    fontSize: moderateScale(12),
+    paddingVertical: scale(8),
+    paddingHorizontal: scale(16),
+    borderRadius: scale(20),
   },
   activeTab: {
-    backgroundColor: '#333',
-    borderRadius: scale(10),
-    padding: scale(8),
+    backgroundColor: COLORS.lightBlue,
+  },
+  tabText: {
+    color: COLORS.textSecondary,
+    fontSize: moderateScale(14),
+    fontWeight: '500',
+  },
+  activeTabText: {
+    color: COLORS.primary,
+    fontWeight: 'bold',
   },
 });

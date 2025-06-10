@@ -16,6 +16,15 @@ type SignUpScreenProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'SignUp'>;
 };
 
+const COLORS = {
+  primary: '#1e88e5', // Main blue color
+  secondary: '#64b5f6', // Lighter blue
+  white: '#ffffff',
+  lightGray: '#f5f5f5',
+  text: '#333333',
+  textSecondary: '#757575',
+};
+
 export default function SignUpScreen({navigation}: SignUpScreenProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -39,7 +48,7 @@ export default function SignUpScreen({navigation}: SignUpScreenProps) {
           <TextInput
             style={styles.input}
             placeholder="Email"
-            placeholderTextColor="#666"
+            placeholderTextColor={COLORS.textSecondary}
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
@@ -48,7 +57,7 @@ export default function SignUpScreen({navigation}: SignUpScreenProps) {
           <TextInput
             style={styles.input}
             placeholder="Password"
-            placeholderTextColor="#666"
+            placeholderTextColor={COLORS.textSecondary}
             value={password}
             onChangeText={setPassword}
             secureTextEntry
@@ -56,7 +65,7 @@ export default function SignUpScreen({navigation}: SignUpScreenProps) {
           <TextInput
             style={styles.input}
             placeholder="Confirm Password"
-            placeholderTextColor="#666"
+            placeholderTextColor={COLORS.textSecondary}
             value={confirmPassword}
             onChangeText={setConfirmPassword}
             secureTextEntry
@@ -81,7 +90,7 @@ export default function SignUpScreen({navigation}: SignUpScreenProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: COLORS.white,
   },
   content: {
     flex: 1,
@@ -94,33 +103,43 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 32,
     fontWeight: 'bold',
-    color: '#fff',
+    color: COLORS.primary,
     marginBottom: 10,
   },
   subtitle: {
     fontSize: 16,
-    color: '#666',
+    color: COLORS.textSecondary,
   },
   formContainer: {
     marginTop: 20,
   },
   input: {
-    backgroundColor: '#1a1a1a',
+    backgroundColor: COLORS.lightGray,
     borderRadius: 8,
     padding: 15,
     marginBottom: 15,
-    color: '#fff',
+    color: COLORS.text,
     fontSize: 16,
+    borderWidth: 1,
+    borderColor: COLORS.secondary,
   },
   button: {
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.primary,
     borderRadius: 8,
     padding: 15,
     alignItems: 'center',
     marginTop: 10,
+    elevation: 2,
+    shadowColor: COLORS.primary,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
   },
   buttonText: {
-    color: '#000',
+    color: COLORS.white,
     fontSize: 16,
     fontWeight: 'bold',
   },
@@ -130,11 +149,11 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   footerText: {
-    color: '#666',
+    color: COLORS.textSecondary,
     fontSize: 14,
   },
   signinText: {
-    color: '#fff',
+    color: COLORS.primary,
     fontSize: 14,
     fontWeight: 'bold',
   },

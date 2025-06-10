@@ -17,21 +17,32 @@ type CartScreenProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'Cart'>;
 };
 
-// Mock data for cart items
+const COLORS = {
+  primary: '#1e88e5',
+  secondary: '#64b5f6',
+  white: '#ffffff',
+  lightGray: '#f5f5f5',
+  text: '#333333',
+  textSecondary: '#757575',
+};
+
+// Update mock data with better product information
 const cartItems = [
   {
     id: '1',
-    name: 'Product 1',
-    price: 99,
+    name: 'Nike Air Max 2024',
+    price: 199,
     quantity: 1,
-    image: 'https://via.placeholder.com/150',
+    image:
+      'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/1d0b3e69-9048-41d3-a88c-f11f5c3d4276/air-max-90-shoes-N7Tbw0.png',
   },
   {
     id: '2',
-    name: 'Product 2',
-    price: 149,
+    name: 'Nike ZoomX Vaporfly',
+    price: 179,
     quantity: 2,
-    image: 'https://via.placeholder.com/150',
+    image:
+      'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/d3eb254d-0901-4158-956d-4ee96f48a8bb/zoomx-vaporfly-3-road-racing-shoes-mVJdmS.png',
   },
 ];
 
@@ -94,25 +105,37 @@ export default function CartScreen({navigation}: CartScreenProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: COLORS.white,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: scale(16),
     borderBottomWidth: 1,
-    borderBottomColor: '#333',
+    borderBottomColor: COLORS.lightGray,
+    backgroundColor: COLORS.white,
   },
   backButton: {
     padding: scale(8),
     marginRight: scale(16),
+    backgroundColor: COLORS.primary,
+    width: scale(40),
+    height: scale(40),
+    borderRadius: scale(20),
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 2,
+    shadowColor: COLORS.primary,
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
   },
   backButtonText: {
-    color: '#fff',
+    color: COLORS.white,
     fontSize: moderateScale(24),
   },
   headerTitle: {
-    color: '#fff',
+    color: COLORS.text,
     fontSize: moderateScale(20),
     fontWeight: 'bold',
   },
@@ -122,7 +145,8 @@ const styles = StyleSheet.create({
   footer: {
     padding: scale(16),
     borderTopWidth: 1,
-    borderTopColor: '#333',
+    borderTopColor: COLORS.lightGray,
+    backgroundColor: COLORS.white,
   },
   totalContainer: {
     flexDirection: 'row',
@@ -131,22 +155,27 @@ const styles = StyleSheet.create({
     marginBottom: scale(16),
   },
   totalLabel: {
-    color: '#fff',
+    color: COLORS.text,
     fontSize: moderateScale(18),
   },
   totalAmount: {
-    color: '#fff',
+    color: COLORS.primary,
     fontSize: moderateScale(20),
     fontWeight: 'bold',
   },
   checkoutButton: {
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.primary,
     borderRadius: scale(8),
     padding: scale(16),
     alignItems: 'center',
+    elevation: 2,
+    shadowColor: COLORS.primary,
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
   },
   checkoutButtonText: {
-    color: '#000',
+    color: COLORS.white,
     fontSize: moderateScale(16),
     fontWeight: 'bold',
   },

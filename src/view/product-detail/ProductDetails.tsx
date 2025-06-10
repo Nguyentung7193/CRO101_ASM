@@ -32,6 +32,16 @@ const productData = {
   sizes: ['US 7', 'US 8', 'US 9', 'US 10', 'US 11'],
 };
 
+const COLORS = {
+  primary: '#1e88e5',
+  secondary: '#64b5f6',
+  white: '#ffffff',
+  lightGray: '#f5f5f5',
+  text: '#333333',
+  textSecondary: '#757575',
+  lightBlue: '#e3f2fd',
+};
+
 type ProductDetailsProps = NativeStackScreenProps<
   RootStackParamList,
   'ProductDetails'
@@ -108,10 +118,11 @@ export default function ProductDetails({navigation}: ProductDetailsProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: COLORS.white,
   },
   imageContainer: {
-    position: 'relative', // Add this to position the back button
+    position: 'relative',
+    backgroundColor: COLORS.lightGray,
   },
   productImage: {
     width: '100%',
@@ -120,108 +131,134 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: scale(16),
+    backgroundColor: COLORS.white,
   },
   header: {
     padding: scale(16),
     borderBottomWidth: 1,
-    borderBottomColor: '#333',
+    borderBottomColor: COLORS.lightGray,
+    backgroundColor: COLORS.white,
   },
   backButton: {
     position: 'absolute',
     top: scale(16),
     left: scale(16),
-    backgroundColor: 'rgba(0,0,0,0.5)', // Semi-transparent background
+    backgroundColor: COLORS.primary,
     width: scale(40),
     height: scale(40),
     borderRadius: scale(20),
     justifyContent: 'center',
     alignItems: 'center',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
   },
   backButtonText: {
-    color: '#fff',
+    color: COLORS.white,
     fontSize: moderateScale(24),
-  },
-  headerTitle: {
-    color: '#fff',
-    fontSize: moderateScale(20),
-    fontWeight: 'bold',
   },
   productName: {
-    color: '#fff',
+    color: COLORS.text,
     fontSize: moderateScale(24),
     fontWeight: 'bold',
-    marginBottom: scale(8), // Add margin bottom to create space
+    marginBottom: scale(8),
   },
   productPrice: {
-    color: '#fff',
+    color: COLORS.primary,
     fontSize: moderateScale(20),
     fontWeight: '500',
   },
   description: {
-    color: '#666',
+    color: COLORS.textSecondary,
     fontSize: moderateScale(14),
     lineHeight: scale(20),
     marginBottom: scale(24),
   },
   featuresContainer: {
     marginBottom: scale(24),
+    backgroundColor: COLORS.lightGray,
+    padding: scale(16),
+    borderRadius: scale(8),
   },
   featuresTitle: {
-    color: '#fff',
+    color: COLORS.text,
     fontSize: moderateScale(16),
     fontWeight: 'bold',
     marginBottom: scale(8),
   },
   featureItem: {
-    color: '#fff',
+    color: COLORS.text,
     fontSize: moderateScale(14),
     marginBottom: scale(4),
+    paddingLeft: scale(8),
   },
   quantityContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: scale(24),
+    backgroundColor: COLORS.lightGray,
+    padding: scale(16),
+    borderRadius: scale(8),
   },
   quantityLabel: {
-    color: '#fff',
+    color: COLORS.text,
     fontSize: moderateScale(16),
     marginRight: scale(16),
   },
   quantityControls: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#1a1a1a',
+    backgroundColor: COLORS.white,
     borderRadius: scale(8),
     padding: scale(4),
+    borderWidth: 1,
+    borderColor: COLORS.secondary,
   },
   quantityButton: {
     width: scale(40),
     height: scale(40),
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: COLORS.primary,
+    borderRadius: scale(20),
+    margin: scale(4),
   },
   quantityButtonText: {
-    color: '#fff',
+    color: COLORS.white,
     fontSize: moderateScale(20),
   },
   quantityText: {
-    color: '#fff',
+    color: COLORS.text,
     fontSize: moderateScale(16),
     marginHorizontal: scale(16),
   },
   footer: {
     padding: scale(16),
     borderTopWidth: 1,
-    borderTopColor: '#333',
+    borderTopColor: COLORS.lightGray,
+    backgroundColor: COLORS.white,
   },
   addToCartButton: {
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.primary,
     borderRadius: scale(8),
     padding: scale(16),
     alignItems: 'center',
+    elevation: 2,
+    shadowColor: COLORS.primary,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
   },
   addToCartText: {
-    color: '#000',
+    color: COLORS.white,
     fontSize: moderateScale(16),
     fontWeight: 'bold',
   },
