@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   View,
@@ -24,57 +24,14 @@ const COLORS = {
   lightBlue: '#e3f2fd',
 };
 
-const newProducts = [
-  {
-    id: '1',
-    name: 'Nike Air Max 2024',
-    price: '$199',
-    image:
-      'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/1d0b3e69-9048-41d3-a88c-f11f5c3d4276/air-max-90-shoes-N7Tbw0.png',
-  },
-  {
-    id: '2',
-    name: 'Nike ZoomX',
-    price: '$179',
-    image:
-      'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/d3eb254d-0901-4158-956d-4ee96f48a8bb/zoomx-vaporfly-3-road-racing-shoes-mVJdmS.png',
-  },
-  {
-    id: '3',
-    name: 'Nike React',
-    price: '$159',
-    image:
-      'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/7c2fff38-9f89-4ed3-a9cc-1f42d6bf75ac/react-infinity-3-road-running-shoes-S5Srkx.png',
-  },
-];
-
-const allProducts = [
-  {
-    id: '1',
-    name: 'Nike Air Max 2024',
-    price: '$199',
-    description:
-      'Revolutionary Air technology with newly engineered mesh upper',
-    image:
-      'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/1d0b3e69-9048-41d3-a88c-f11f5c3d4276/air-max-90-shoes-N7Tbw0.png',
-  },
-  {
-    id: '2',
-    name: 'Nike ZoomX',
-    price: '$179',
-    description: 'Ultimate racing shoe with responsive foam',
-    image:
-      'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/d3eb254d-0901-4158-956d-4ee96f48a8bb/zoomx-vaporfly-3-road-racing-shoes-mVJdmS.png',
-  },
-  {
-    id: '3',
-    name: 'Nike React',
-    price: '$159',
-    description: 'Soft and responsive foam for ultimate comfort',
-    image:
-      'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/7c2fff38-9f89-4ed3-a9cc-1f42d6bf75ac/react-infinity-3-road-running-shoes-S5Srkx.png',
-  },
-];
+type Product = {
+  id: string;
+  name: string;
+  price: string;
+  description?: string;
+  image: string;
+  isNewArrival: boolean;
+};
 
 type HomeScreenProps = {
   navigation: NativeStackNavigationProp<
@@ -85,10 +42,39 @@ type HomeScreenProps = {
 
 export default function HomeScreen({navigation}: HomeScreenProps) {
   const [searchQuery, setSearchQuery] = useState('');
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const handleProductPress = () => {
-    navigation.navigate('ProductDetails');
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/products');
+      const data = await response.json();
+      setProducts(data);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+      setLoading(false);
+    }
   };
+
+  const newProducts = products.filter(product => product.isNewArrival);
+  const allProducts = products;
+
+  const handleProductPress = (productId: string) => {
+    navigation.navigate('ProductDetails', {productId});
+  };
+
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -111,7 +97,10 @@ export default function HomeScreen({navigation}: HomeScreenProps) {
           horizontal
           data={newProducts}
           renderItem={({item}) => (
-            <NewProductItem item={item} onPress={() => handleProductPress()} />
+            <NewProductItem
+              item={item}
+              onPress={() => handleProductPress(item.id)}
+            />
           )}
           keyExtractor={item => item.id}
           showsHorizontalScrollIndicator={false}
@@ -124,7 +113,10 @@ export default function HomeScreen({navigation}: HomeScreenProps) {
         <FlatList
           data={allProducts}
           renderItem={({item}) => (
-            <ProductItem item={item} onPress={() => handleProductPress()} />
+            <ProductItem
+              item={item}
+              onPress={() => handleProductPress(item.id)}
+            />
           )}
           keyExtractor={item => item.id}
           scrollEnabled={false}
@@ -178,5 +170,10 @@ const styles = StyleSheet.create({
   },
   newProductsList: {
     paddingHorizontal: scale(16),
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

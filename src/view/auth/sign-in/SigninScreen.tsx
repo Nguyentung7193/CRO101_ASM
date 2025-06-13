@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-shadow */
+/* eslint-disable no-catch-shadow */
 import {
   StyleSheet,
   Text,
@@ -28,9 +30,29 @@ type SigninScreenProps = {
 export default function SigninScreen({navigation}: SigninScreenProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  const handleSignIn = () => {
-    navigation.replace('MenuHome');
+  const handleSignIn = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/users');
+      const users = await response.json();
+
+      const user = users.find(
+        (u: any) => u.email === email && u.password === password,
+      );
+
+      if (user) {
+        // Clear error if exists
+        setError('');
+        // Navigate to home screen
+        navigation.replace('MenuHome');
+      } else {
+        setError('Invalid email or password');
+      }
+    } catch (error) {
+      console.error('Error during sign in:', error);
+      setError('Something went wrong. Please try again.');
+    }
   };
   const navigateToSignUp = () => {
     navigation.navigate('SignUp');
@@ -47,12 +69,17 @@ export default function SigninScreen({navigation}: SigninScreenProps) {
         </View>
 
         <View style={styles.formContainer}>
+          {error ? <Text style={styles.errorText}>{error}</Text> : null}
+
           <TextInput
             style={styles.input}
             placeholder="Email"
             placeholderTextColor={COLORS.textSecondary}
             value={email}
-            onChangeText={setEmail}
+            onChangeText={text => {
+              setEmail(text);
+              setError(''); // Clear error when user types
+            }}
             keyboardType="email-address"
             autoCapitalize="none"
           />
@@ -61,7 +88,10 @@ export default function SigninScreen({navigation}: SigninScreenProps) {
             placeholder="Password"
             placeholderTextColor={COLORS.textSecondary}
             value={password}
-            onChangeText={setPassword}
+            onChangeText={text => {
+              setPassword(text);
+              setError(''); // Clear error when user types
+            }}
             secureTextEntry
           />
 
@@ -162,5 +192,11 @@ const styles = StyleSheet.create({
     color: COLORS.primary,
     fontSize: 14,
     fontWeight: 'bold',
+  },
+  errorText: {
+    color: '#ff4444',
+    fontSize: 14,
+    marginBottom: 10,
+    textAlign: 'center',
   },
 });

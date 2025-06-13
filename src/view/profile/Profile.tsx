@@ -5,7 +5,6 @@ import {
   SafeAreaView,
   TouchableOpacity,
   ScrollView,
-  Image,
 } from 'react-native';
 import React from 'react';
 import {scale, moderateScale} from 'react-native-size-matters';
@@ -39,7 +38,7 @@ const COLORS = {
 export default function Profile({navigation}: ProfileProps) {
   const menuItems: MenuItem[] = [
     {id: '1', title: 'My Orders', route: 'ListOrder'},
-    {id: '2', title: 'Shipping Address'},
+    {id: '2', title: 'Admin Screen', route: 'AdminScreen'},
     {id: '3', title: 'Payment Methods'},
     {id: '4', title: 'Settings'},
     {id: '5', title: 'Help Center'},
@@ -66,7 +65,7 @@ export default function Profile({navigation}: ProfileProps) {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <View style={styles.header}>
+        {/* <View style={styles.header}>
           <Image
             source={{
               uri: 'https://toquoc.mediacdn.vn/280518851207290880/2021/9/3/base64-1630595438805599368242-1630639676186-1630639676357733744119.png',
@@ -80,7 +79,7 @@ export default function Profile({navigation}: ProfileProps) {
           <TouchableOpacity style={styles.editButton}>
             <Text style={styles.editButtonText}>Edit</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         <View style={styles.menuContainer}>
           {menuItems.map(item => renderMenuItem(item))}

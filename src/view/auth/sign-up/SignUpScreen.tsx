@@ -7,6 +7,8 @@ import {
   SafeAreaView,
   KeyboardAvoidingView,
   Platform,
+  Alert,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useState} from 'react';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -14,6 +16,15 @@ import {RootStackParamList} from '../../../navigation/AppNavigator';
 
 type SignUpScreenProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'SignUp'>;
+};
+
+type User = {
+  id: string;
+  email: string;
+  password: string;
+  name?: string;
+  avatar?: string;
+  createdAt: string;
 };
 
 const COLORS = {
@@ -29,9 +40,76 @@ export default function SignUpScreen({navigation}: SignUpScreenProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSignUp = () => {
-    navigation.replace('Home');
+  const validateInputs = () => {
+    if (!email || !password || !confirmPassword) {
+      Alert.alert('Error', 'Please fill in all fields');
+      return false;
+    }
+
+    if (password !== confirmPassword) {
+      Alert.alert('Error', 'Passwords do not match');
+      return false;
+    }
+
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      Alert.alert('Error', 'Please enter a valid email address');
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSignUp = async () => {
+    if (!validateInputs()) return;
+
+    setLoading(true);
+    try {
+      // First check if user already exists
+      const checkResponse = await fetch(
+        `http://localhost:3000/users?email=${email}`,
+      );
+      const existingUsers = await checkResponse.json();
+
+      if (existingUsers.length > 0) {
+        Alert.alert('Error', 'Email already registered');
+        setLoading(false);
+        return;
+      }
+
+      // Create new user
+      const response = await fetch('http://localhost:3000/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password, // In a real app, you should hash the password
+          createdAt: new Date().toISOString(),
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create account');
+      }
+
+      const newUser: User = await response.json();
+      Alert.alert('Success', 'Account created successfully', [
+        {
+          text: 'OK',
+          onPress: () => navigation.replace('Login'),
+        },
+      ]);
+    } catch (error) {
+      console.error('Registration error:', error);
+      Alert.alert('Error', 'Failed to create account. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -53,6 +131,7 @@ export default function SignUpScreen({navigation}: SignUpScreenProps) {
             onChangeText={setEmail}
             keyboardType="email-address"
             autoCapitalize="none"
+            editable={!loading}
           />
           <TextInput
             style={styles.input}
@@ -61,6 +140,7 @@ export default function SignUpScreen({navigation}: SignUpScreenProps) {
             value={password}
             onChangeText={setPassword}
             secureTextEntry
+            editable={!loading}
           />
           <TextInput
             style={styles.input}
@@ -69,10 +149,18 @@ export default function SignUpScreen({navigation}: SignUpScreenProps) {
             value={confirmPassword}
             onChangeText={setConfirmPassword}
             secureTextEntry
+            editable={!loading}
           />
 
-          <TouchableOpacity style={styles.button} onPress={handleSignUp}>
-            <Text style={styles.buttonText}>Sign Up</Text>
+          <TouchableOpacity
+            style={[styles.button, loading && styles.buttonDisabled]}
+            onPress={handleSignUp}
+            disabled={loading}>
+            {loading ? (
+              <ActivityIndicator color={COLORS.white} />
+            ) : (
+              <Text style={styles.buttonText}>Sign Up</Text>
+            )}
           </TouchableOpacity>
         </View>
 
@@ -137,6 +225,9 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
+  },
+  buttonDisabled: {
+    opacity: 0.7,
   },
   buttonText: {
     color: COLORS.white,
