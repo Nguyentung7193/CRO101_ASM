@@ -1,0 +1,132 @@
+{
+  "products": [
+    {
+      "id": "2",
+      "name": "Nike ZoomX",
+      "price": "$179",
+      "description": "Ultimate racing shoe with responsive foam",
+      "image": "https://thanhnien.mediacdn.vn/uploaded/nthanhluan/2021_09_04/picture2_UDAN.png?width=500",
+      "isNewArrival": true
+    },
+    {
+      "id": "3",
+      "name": "Nike React",
+      "price": "$159",
+      "description": "Soft and responsive foam for ultimate comfort",
+      "image": "https://thanhnien.mediacdn.vn/uploaded/nthanhluan/2021_09_04/picture2_UDAN.png?width=500",
+      "isNewArrival": false
+    },
+    {
+      "id": "320c",
+      "name": "product 1",
+      "price": "1000",
+      "description": "Test product",
+      "image": "https://upload-static.hoyoverse.com/hoyolab-wiki/2023/05/22/73555894/93d75f397cef4378db5407389f7ee3c9_8969265521364922801.png?x-oss-process=image%2Fformat%2Cwebp",
+      "isNewArrival": false
+    },
+    {
+      "id": "5bcb",
+      "name": "Product 2",
+      "price": "1000",
+      "description": "Test 2",
+      "image": "https://upload-static.hoyoverse.com/hoyolab-wiki/2023/05/22/73555894/93d75f397cef4378db5407389f7ee3c9_8969265521364922801.png?x-oss-process=image%2Fformat%2Cwebp",
+      "isNewArrival": true
+    }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "email": "user@example.com",
+      "password": "password123",
+      "name": "John Doe"
+    },
+    {
+      "id": "2",
+      "email": "admin@example.com",
+      "password": "admin123",
+      "name": "Admin User"
+    },
+    {
+      "id": "3",
+      "email": "tung@gmail.com",
+      "password": "123",
+      "name": "Tung Nguyen"
+    },
+    {
+      "id": "1f12",
+      "email": "t@gmail.com",
+      "password": "123",
+      "createdAt": "2025-06-12T07:39:40.887Z"
+    }
+  ],
+  "carts": [
+    {
+      "id": "3",
+      "userId": "3",
+      "items": []
+    }
+  ],
+  "orders": [
+    {
+      "id": "dd98",
+      "userId": "3",
+      "items": [
+        {
+          "productId": "1",
+          "quantity": 1,
+          "name": "Nike Air Max 2024",
+          "price": "$199",
+          "image": "https://thanhnien.mediacdn.vn/uploaded/nthanhluan/2021_09_04/picture2_UDAN.png?width=500"
+        }
+      ],
+      "totalAmount": 199,
+      "shippingAddress": "Test update",
+      "phoneNumber": "0395257193",
+      "orderDate": "2025-06-10T16:08:57.553Z",
+      "status": "pending"
+    },
+    {
+      "id": "59bd",
+      "userId": "3",
+      "items": [
+        {
+          "productId": "2",
+          "quantity": 1,
+          "name": "Nike ZoomX",
+          "price": "$179",
+          "image": "https://thanhnien.mediacdn.vn/uploaded/nthanhluan/2021_09_04/picture2_UDAN.png?width=500"
+        }
+      ],
+      "totalAmount": 179,
+      "shippingAddress": "Ha noi",
+      "phoneNumber": "0395257193",
+      "orderDate": "2025-06-11T02:49:58.821Z",
+      "status": "pending"
+    },
+    {
+      "id": "0b48",
+      "userId": "3",
+      "items": [
+        {
+          "productId": "1",
+          "quantity": 1,
+          "name": "Nike Air Max 2024",
+          "price": "$199",
+          "image": "https://thanhnien.mediacdn.vn/uploaded/nthanhluan/2021_09_04/picture2_UDAN.png?width=500"
+        },
+        {
+          "productId": "2",
+          "quantity": 2,
+          "name": "Nike ZoomX",
+          "price": "$179",
+          "image": "https://thanhnien.mediacdn.vn/uploaded/nthanhluan/2021_09_04/picture2_UDAN.png?width=500"
+        }
+      ],
+      "totalAmount": 557,
+      "shippingAddress": "test",
+      "phoneNumber": "0395257193",
+      "orderDate": "2025-06-12T07:37:53.310Z",
+      "status": "pending"
+    }
+  ]
+}

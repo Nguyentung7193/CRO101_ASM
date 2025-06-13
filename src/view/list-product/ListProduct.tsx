@@ -7,9 +7,12 @@ import {
   FlatList,
   SafeAreaView,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {scale, moderateScale} from 'react-native-size-matters';
 import ProductItem from '../../compoment/product/ProductItem';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../../navigation/AppNavigator';
+import {useNavigation} from '@react-navigation/native';
 
 const COLORS = {
   primary: '#1e88e5',
@@ -20,45 +23,57 @@ const COLORS = {
   textSecondary: '#757575',
 };
 
-// Enhanced mock data
-const products = [
-  {
-    id: '1',
-    name: 'Nike Air Max 2024',
-    price: '$199',
-    description:
-      'Revolutionary Air technology with newly engineered mesh upper',
-    image:
-      'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/1d0b3e69-9048-41d3-a88c-f11f5c3d4276/air-max-90-shoes-N7Tbw0.png',
-  },
-  {
-    id: '2',
-    name: 'Nike ZoomX Vaporfly',
-    price: '$179',
-    description: 'Ultimate racing shoe with responsive foam technology',
-    image:
-      'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/d3eb254d-0901-4158-956d-4ee96f48a8bb/zoomx-vaporfly-3-road-racing-shoes-mVJdmS.png',
-  },
-  {
-    id: '3',
-    name: 'Nike React Infinity',
-    price: '$159',
-    description: 'Soft and responsive foam for ultimate comfort',
-    image:
-      'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/7c2fff38-9f89-4ed3-a9cc-1f42d6bf75ac/react-infinity-3-road-running-shoes-S5Srkx.png',
-  },
-  {
-    id: '4',
-    name: 'Nike Pegasus 39',
-    price: '$129',
-    description: 'Versatile daily trainer with proven cushioning',
-    image:
-      'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/5f9f5f8f-5d56-4b5d-a6b9-3fcf9b9f7d43/pegasus-39-road-running-shoes-kmZSD6.png',
-  },
-];
+
+type Product = {
+  id: string;
+  name: string;
+  price: string;
+  description: string;
+  image: string;
+};
+
+type ListProductScreenNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'ListProduct'
+>;
 
 export default function ListProduct() {
+  const navigation = useNavigation<ListProductScreenNavigationProp>();
   const [searchQuery, setSearchQuery] = useState('');
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/products');
+      const data = await response.json();
+      setProducts(data);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+      setLoading(false);
+    }
+  };
+
+  const handleProductPress = (productId: string) => {
+    try {
+      navigation.navigate('ProductDetails', {productId});
+    } catch (error) {
+      console.error('Navigation error:', error);
+    }
+  };
+
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -80,7 +95,7 @@ export default function ListProduct() {
         renderItem={({item}) => (
           <ProductItem
             item={item}
-            onPress={() => console.log('Product pressed:', item)}
+            onPress={() => handleProductPress(item.id)}
           />
         )}
         keyExtractor={item => item.id}
@@ -124,5 +139,10 @@ const styles = StyleSheet.create({
   },
   productList: {
     padding: scale(16),
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
