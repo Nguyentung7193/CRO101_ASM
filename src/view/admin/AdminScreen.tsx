@@ -82,7 +82,6 @@ export default function AdminScreen() {
       console.error(err);
     }
   };
-
   const handleDelete = async (id: string) => {
     Alert.alert(
       'Confirm Delete',

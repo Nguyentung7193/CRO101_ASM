@@ -4,15 +4,14 @@ import {
   View,
   SafeAreaView,
   TouchableOpacity,
-  Image,
 } from 'react-native';
 import React, {useState} from 'react';
 import {scale, moderateScale} from 'react-native-size-matters';
 import HomeScreen from '../home/HomeScreen';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../navigation/AppNavigator';
-import ListProduct from '../list-product/ListProduct';
-import Profile from '../profile/Profile';
+import UserManagementScreen from '../admin/UserManagementScreen';
+import AdminScreen from '../admin/AdminScreen';
 
 type MenuHomeScreenProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'MenuHome'>;
@@ -31,9 +30,9 @@ const COLORS = {
 export default function MenuHomeScreen({navigation}: MenuHomeScreenProps) {
   const [activeTab, setActiveTab] = useState('home');
 
-  const handleCartPress = () => {
-    navigation.navigate('Cart');
-  };
+  // const handleCartPress = () => {
+  //   navigation.navigate('Cart');
+  // };
 
   const renderContent = () => {
     switch (activeTab) {
@@ -43,16 +42,16 @@ export default function MenuHomeScreen({navigation}: MenuHomeScreenProps) {
             <HomeScreen navigation={navigation} />
           </View>
         );
-      case 'search':
+      case 'UserManagement':
         return (
           <View style={styles.content}>
-            <ListProduct />
+            <UserManagementScreen />
           </View>
         );
-      case 'profile':
+      case 'ProductManagement':
         return (
           <View style={styles.content}>
-            <Profile navigation={navigation} />
+            <AdminScreen />
           </View>
         );
       default:
@@ -62,7 +61,7 @@ export default function MenuHomeScreen({navigation}: MenuHomeScreenProps) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
+      {/* <View style={styles.header}>
         <View style={styles.userInfoContainer}>
           <View style={styles.userInfo}>
             <Image
@@ -81,7 +80,7 @@ export default function MenuHomeScreen({navigation}: MenuHomeScreenProps) {
             <Text style={styles.cartButtonText}>Cart</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </View> */}
 
       {renderContent()}
 
@@ -98,25 +97,31 @@ export default function MenuHomeScreen({navigation}: MenuHomeScreenProps) {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.tabItem, activeTab === 'search' && styles.activeTab]}
-          onPress={() => setActiveTab('search')}>
+          style={[
+            styles.tabItem,
+            activeTab === 'UserManagement' && styles.activeTab,
+          ]}
+          onPress={() => setActiveTab('UserManagement')}>
           <Text
             style={[
               styles.tabText,
-              activeTab === 'search' && styles.activeTabText,
+              activeTab === 'UserManagement' && styles.activeTabText,
             ]}>
-            Search
+            UserManagement
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.tabItem, activeTab === 'profile' && styles.activeTab]}
-          onPress={() => setActiveTab('profile')}>
+          style={[
+            styles.tabItem,
+            activeTab === 'ProductManagement' && styles.activeTab,
+          ]}
+          onPress={() => setActiveTab('ProductManagement')}>
           <Text
             style={[
               styles.tabText,
-              activeTab === 'profile' && styles.activeTabText,
+              activeTab === 'ProductManagement' && styles.activeTabText,
             ]}>
-            Profile
+            ProductManagement
           </Text>
         </TouchableOpacity>
       </View>
