@@ -12,6 +12,7 @@ import CartScreen from '../view/cart/CartScreen';
 import ListOrderScreen from '../view/list-order/ListOrderScreen';
 import OrderDetails from '../view/order-details/OrDerDetails';
 import AdminScreen from '../view/admin/AdminScreen';
+import UserManagementScreen from '../view/admin/UserManagementScreen';
 
 export type RootStackParamList = {
   Login: undefined;
@@ -29,6 +30,7 @@ export type RootStackParamList = {
     productId: string;
   };
   AdminScreen: undefined;
+  UserManagement: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -54,10 +56,8 @@ export default function AppNavigator() {
         component={OrderDetails}
         initialParams={{orderId: undefined}}
       />
-      <Stack.Screen
-        name="AdminScreen"
-        component={AdminScreen}
-        />
+      <Stack.Screen name="AdminScreen" component={AdminScreen} />
+      <Stack.Screen name="UserManagement" component={UserManagementScreen} />
     </Stack.Navigator>
   );
 }
